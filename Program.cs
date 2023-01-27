@@ -3,45 +3,32 @@ using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
-app.MapPost("/", () => new{Name="Cezar Iavorski", age=27});
-app.MapGet("/AddHeader", (HttpResponse response) => {
-    response.Headers.Add("Test", "Cezar Iavorski");
-    return new {Name="Cezar Iavorski", age=27};
-
-});
-
 app.MapPost("/saveproduct", (Product product) => {
-    return product.Code + "-" + product.Name;
+   ProductRepository.Add(product);
 });
     
-app.MapGet("/getproduct", ([FromQuery] string dateStart, [FromQuery] string dateEnd) => {
-    return dateStart + "-" + dateEnd;
-});
-
 app.MapGet("/getproduct/{code}", ([FromRoute] string code) => {
-    return code;
+    var product = ProductRepository.GetBy(code);
+    return product;
 });
 
-app.MapGet("/getproductbyheader", (HttpRequest request) => {
-    return request.Headers["product-code"].ToString();
-});
+
 
 app.Run();
 
-public class ProductRepository 
+public static class ProductRepository 
 {
-    public List<Product> Products { get; set; }
+    public static List<Product> Products { get; set; }
 
-    public void Add(Product product) {
-        if(product == null)
-            Products = new List<Product>;
+    public static void Add(Product product) {
+        if(Products == null)
+            Products = new List<Product>();
 
         Products.Add(product);
     }
     
-    public Product GetBy(string code) {
-        return Products.First(p => p.Code == code);
+    public static Product GetBy(string code) {
+        return Products.FirstOrDefault(p => p.Code == code);
     }
 
 }
