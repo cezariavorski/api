@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230129031634_AddTags")]
+    [Migration("20230129033448_AddTags")]
     partial class AddTags
     {
         /// <inheritdoc />
