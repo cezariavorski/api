@@ -37,4 +37,3 @@ app.MapGet("configuration/database", (IConfiguration configuration) => {
 
 
 app.Run();
-
