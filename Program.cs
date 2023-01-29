@@ -73,7 +73,15 @@ public class Product
 public class ApplicationDbContext : DbContext {
 
     public DbSet<Product> Products { get; set; }
-
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.Entity<Product>()
+        .Property(p => p.Description).HasMaxLength(500).IsRequired(false);
+        builder.Entity<Product>()
+        .Property(p => p.Name).HasMaxLength(120);
+        builder.Entity<Product>()
+        .Property(p => p.Code).HasMaxLength(20);
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     => options.UseSqlServer("Server=localhost;Database=Products;User Id=sa;Password=@SqlServer2022;TrustServerCertificate=True");
