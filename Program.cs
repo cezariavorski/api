@@ -65,6 +65,7 @@ app.MapPut("/products/{id}", ([FromRoute] int id, ProductRequest productRequest,
 app.MapDelete("/products/{id}", ([FromRoute] int id, ApplicationDbContext context) =>{
     var product = context.Products.Where(p => p.Id == id).First();
     context.Products.Remove(product);
+    context.SaveChanges();
     return Results.Ok();
 });
 
